@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You 💗</title>
+
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #ffd6e8, #ffb6d5);
+    font-family: 'Comic Sans MS', 'Poppins', sans-serif;
+    text-align: center;
+    overflow-x: hidden;
+    color: #5a0036;
+  }
+
+  h1 {
+    font-size: 48px;
+    margin-top: 80px;
+  }
+
+  #countdown {
+    font-size: 26px;
+  }
+
+  #startBtn {
+    margin-top: 20px;
+    padding: 12px 25px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    background: #ff69b4;
+    color: white;
+    cursor: pointer;
+  }
+
+  #letter {
+    display: none;
+    max-width: 700px;
+    margin: 40px auto;
+    font-size: 20px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    padding: 20px;
+  }
+
+  .sparkle {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    animation: float 6s linear infinite;
+    opacity: 0.8;
+  }
+
+  @keyframes float {
+    from {
+      transform: translateY(100vh);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(-10vh);
+      opacity: 0;
+    }
+  }
+
+  .balloon {
+    position: fixed;
+    bottom: -150px;
+    width: 60px;
+    height: 80px;
+    background: pink;
+    border-radius: 50% 50% 45% 45%;
+    animation: rise 12s linear infinite;
+  }
+
+  @keyframes rise {
+    to {
+      transform: translateY(-120vh);
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<h1 id="countdown">Something special is coming… 🎀</h1>
+<button id="startBtn" style="display:none;">Tap to start 🎶</button>
+
+<div id="letter">
+  <h1>🎂 HAPPY BIRTHDAY 🎂</h1>
+</div>
+
+<audio id="music" loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const targetDate = new Date("2026-02-10T00:00:00").getTime();
+  const countdownEl = document.getElementById("countdown");
+  const letterEl = document.getElementById("letter");
+  const music = document.getElementById("music");
+  const startBtn = document.getElementById("startBtn");
+
+  const text = `
+Happy birthday, my best friend,
+the first love of my life,
+my person 🤍
+
+I love you more than words can ever explain,
+but still — here I am,
+writing them for you.
+
+Distance is a bitch, yeah,
+but it could never keep me away from you.
+Not today. Not ever.
+
+I have all your gifts prepared.
+Every thought, every detail,
+all wrapped in love.
+
+Thank you for being there
+in my lowest lows
+and my highest highs.
+Thank you for existing in my life.
+
+This little program,
+these words,
+this letter —
+it’s my digital hug for you.
+
+I love you.
+I love you.
+I love you.
+
+Happiest birthday.
+May all your wishes come true —
+and you know exactly what I mean by all.
+
+Always yours. 💗
+`;
+
+  let i = 0;
+  function typeText() {
+    if (i < text.length) {
+      letterEl.innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typeText, 40);
+    }
+  }
+
+  const timer = setInterval(() => {
+    const now = new Date().getTime();
+    const diff = targetDate - now;
+
+    if (diff <= 0) {
+      clearInterval(timer);
+      countdownEl.innerText = "🎉 It’s your day 🎉";
+      startBtn.style.display = "inline-block";
+    } else {
+      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
+      countdownEl.innerText = `Unlocking in ${h}h ${m}m ${s}s`;
+    }
+  }, 1000);
+
+  startBtn.onclick = () => {
+    startBtn.style.display = "none";
+    countdownEl.style.display = "none";
+    letterEl.style.display = "block";
+    music.play();
+    typeText();
+  };
+
+  // sparkles
+  setInterval(() => {
+    const s = document.createElement("div");
+    s.className = "sparkle";
+    s.style.left = Math.random() * 100 + "vw";
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 6000);
+  }, 150);
+
+  // balloons
+  setInterval(() => {
+    const b = document.createElement("div");
+    b.className = "balloon";
+    b.style.left = Math.random() * 100 + "vw";
+    b.style.background = ["#ff9acb", "#ffc0da", "#ff7eb9"][Math.floor(Math.random()*3)];
+    document.body.appendChild(b);
+    setTimeout(() => b.remove(), 12000);
+  }, 2000);
+</script>
+
+</body>
+</html>
